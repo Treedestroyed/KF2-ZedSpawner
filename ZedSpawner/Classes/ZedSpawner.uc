@@ -123,7 +123,16 @@ private function Init()
 	SpawnListSW = CfgSpawnListSW.static.Load(KFGIE, LogLevel);
 	
 	foreach SpawnListBW(SpawnEntry)
+	{
 		BossClassCache.AddItem(SpawnEntry.BossClass);
+		SpawnEntry.BossClass.static.PreloadContent();
+	}
+
+	foreach SpawnListSW(SpawnEntry)
+	{
+		SpawnEntry.BossClass.static.PreloadContent();
+		SpawnEntry.ZedClass.static.PreloadContent();
+	}
 	
 	CurrentCycle = 1;
 	CycleWaveSize = 0;
@@ -132,6 +141,8 @@ private function Init()
 	{
 		CycleWaveShift = Min(CycleWaveShift, SpawnEntry.Wave);
 		CycleWaveSize  = Max(CycleWaveSize, SpawnEntry.Wave);
+
+		SpawnEntry.ZedClass.static.PreloadContent();
 	}
 	CycleWaveSize = CycleWaveSize - CycleWaveShift + 1;
 
